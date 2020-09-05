@@ -1,0 +1,157 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+    useLibrary 'org.apache.http.legacy'
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId "com.fengdi.baseproject"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    signingConfigs {
+        config {
+            //签名文件在项目根目录下
+            //KEY_ALIAS，KEY_PASSWORD，STORE_PASSWORD写在项目根目录下的gradle.properties里
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
+            storeFile file('../test.jks')
+            storePassword STORE_PASSWORD
+
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            minifyEnabled false
+
+            //使用proguard-android里面的配置
+            buildConfigField "String", "WX_APPID", WX_APPID
+            buildConfigField "String", "WX_MinAPP_ID", WX_MinAPP_ID
+            buildConfigField "String", "WX_SECRET", WX_SECRET
+            buildConfigField "String", "WX_Heather_Key", WX_Heather_Key
+            buildConfigField "String", "WX_Heather_Value", WX_Heather_Value
+            buildConfigField "String", "BASE_URL", RELEASE_BASE_URL
+            buildConfigField "String", "RELEASE_TYPE", RELEASE_TYPE
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config// signingConfig signingConfigs.config//使用上面配置的签名进行打包
+        }
+
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+
+            //使用proguard-android里面的配置
+            buildConfigField "String", "WX_APPID", WX_APPID
+            buildConfigField "String", "WX_MinAPP_ID", WX_MinAPP_ID
+            buildConfigField "String", "WX_SECRET", WX_SECRET
+            buildConfigField "String", "WX_Heather_Key", WX_Heather_Key
+            buildConfigField "String", "WX_Heather_Value", WX_Heather_Value
+            buildConfigField "String", "BASE_URL", DEBUG_BASE_URL
+            buildConfigField "String", "RELEASE_TYPE", RELEASE_TYPE
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config// signingConfig signingConfigs.config//使用上面配置的签名进行打包
+        }
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+        disable "ResourceType"
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    //androidx
+    implementation rootProject.ext.dependencies["cardview"]
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+    //tools
+    //注意 Arms 核心库现在并不会依赖某个 EventBus, 要想使用 EventBus, 还请在项目中自行依赖对应的 EventBus
+    //现在支持两种 EventBus, greenrobot 的 EventBus 和畅销书 《Android源码设计模式解析与实战》的作者 何红辉 所作的 AndroidEventBus
+    //依赖后 Arms 会自动检测您依赖的 EventBus 并自动注册
+    //建议使用 AndroidEventBus, 特别是组件化项目, 原因请看 https://github.com/hehonghui/AndroidEventBus/issues/49
+    //这种做法可以让使用者有自行选择三方库的权利, 并且还可以减轻 Arms 的体积
+    implementation rootProject.ext.dependencies["androideventbus"]
+    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+//    implementation rootProject.ext.dependencies["eventbus"]
+
+    annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
+    implementation rootProject.ext.dependencies["progressmanager"]
+    implementation rootProject.ext.dependencies["retrofit-url-manager"]
+    implementation rootProject.ext.dependencies["lifecyclemodel"]
+    implementation rootProject.ext.dependencies["qmui"]
+    implementation rootProject.ext.dependencies["banner"]
+
+    implementation "com.qmuiteam:arch:2.0.0-alpha10"
+    kapt "com.qmuiteam:arch-compiler:2.0.0-alpha10" // use annotationProcessor if java
+
+    implementation rootProject.ext.dependencies["pictureselector"]
+
+    //view
+    kapt(rootProject.ext.dependencies["butterknife-compiler"]) {
+        exclude module: 'annotation'
+    }
+    implementation(rootProject.ext.dependencies["paginate"]) {
+        exclude module: 'recyclerview'
+    }
+
+    //arms
+    implementation project(':arms')
+//    implementation 'me.jessyan:arms:2.5.2'
+
+    //Arms 核心库不再包含 AndroidAutoLayout, 现在可自行选择屏幕适配方案, 不想使用 AndroidAutoLayout 就不要依赖 arms-autolayout
+    implementation 'me.jessyan:arms-autolayout:2.5.2'
+
+    //现在已经将 Demo 中的屏幕适配框架从 AndroidAutoLayout 替换为 AndroidAutoSize, AndroidAutoLayout 和 AndroidAutoSize 可以在项目中共存
+    //所以旧项目只要依赖 arms-autolayout 即可兼容之前的旧页面, 新页面可以使用 AndroidAutoSize 进行适配, 等有时间了再将旧页面全部替换为 AndroidAutoSize
+    implementation rootProject.ext.dependencies["autosize"]
+
+    //Arms 核心库不再包含 Glide, 想使用其他图片加载框架或者想自行扩展 ImageLoaderStrategy 就不要依赖 arms-imageloader-glide
+    //依赖 arms-imageloader-glide 后还需要在 GlobalConfiguration 中手动注册 GlideImageLoaderStrategy
+//    implementation 'me.jessyan:arms-imageloader-glide:2.5.2'
+    implementation project(':arms-imageloader-glide')
+
+    //二维码扫码框架
+    /*添加依赖*/
+    implementation 'com.github.yuzhiqiang1993:zxing:2.2.5'
+
+    //微信sdk
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
+
+    //test
+    testImplementation rootProject.ext.dependencies["junit"]
+    debugImplementation rootProject.ext.dependencies["canary-debug"]
+    kapt rootProject.ext.dependencies["dagger2-compiler"]
+}

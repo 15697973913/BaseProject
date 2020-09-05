@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3FA862</color>
+    <color name="colorPrimaryDark">#3FA862</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="color_ff333333">#333333</color>
+    <color name="text_color_reds1">#F7394E</color>
+    <color name="color_ffffffff">#ffffff</color>
+    <color name="mains_textcolor">#333333</color>
+    <color name="line_color">#EEEEEE</color>
+    <color name="vices_textcolor">#666666</color>
+    <color name="c_333333">#333333</color>
+    <color name="c_cccccc">#cccccc</color>
+</resources>

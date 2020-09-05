@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">BaseProject</string>
+    <string name="login_hint_input_pwd">请输入密码</string>
+    <string name="login_lab_login">登陆</string>
+    <string name="login_hint_input_sms_number">请输入验证码</string>
+    <string name="login_hint_get_sms_number">获取验证码</string>
+    <string name="login_lab_login_type_sms">验证码登陆</string>
+    <string name="login_lab_forget_pwd">忘记密码</string>
+    <string name="text_newuser_register">注册</string>
+    <string name="login_lab_other_login_type">第三方登陆</string>
+    <string name="str_wechat">微信</string>
+    <string name="str_dingding">钉钉</string>
+    <string name="str_please_input_account">请输入账号</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

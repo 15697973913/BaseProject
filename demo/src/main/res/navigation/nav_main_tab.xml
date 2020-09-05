@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main_tab"
+    app:startDestination="@id/tab_home">
+
+    <fragment
+        android:id="@+id/tab_circle"
+        android:name="com.fengdi.baseproject.mvp.ui.fragment.Test2Fragment"
+        android:label="fragment_test2"
+        tools:layout="@layout/fragment_test2" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/tab_home"
+        android:name="com.fengdi.baseproject.mvp.ui.fragment.Test1Fragment"
+        android:label="fragment_test1"
+        tools:layout="@layout/fragment_test1" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/tab_task"
+        android:name="com.fengdi.baseproject.mvp.ui.fragment.Test3Fragment"
+        android:label="fragment_test3"
+        tools:layout="@layout/fragment_test3" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/tab_mine"
+        android:name="com.fengdi.baseproject.mvp.ui.fragment.Test4Fragment"
+        android:label="fragment_test4"
+        tools:layout="@layout/fragment_test4" />
+</navigation>

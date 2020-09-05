@@ -1,0 +1,5 @@
+# ninja log v5
+0	467	619348529	CMakeFiles/native-lib.dir/native-lib.cpp.o	683f0ac980deccbe
+469	653	619348529	F:/yanjieWork/BaseProject/arms/build/intermediates/cmake/debug/obj/x86/libnative-lib.so	50c54561deb40a04
+3	335	619348587	CMakeFiles/native-lib.dir/native-lib.cpp.o	683f0ac980deccbe
+335	390	619348587	F:/yanjieWork/BaseProject/arms/build/intermediates/cmake/debug/obj/x86/libnative-lib.so	50c54561deb40a04
